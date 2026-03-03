@@ -48,7 +48,8 @@ The bin itself is, of course, a fasta file of this fungi.
 
 ___
 The code could easily be adapted to work with metagenomic assemblies done through other means. 
+
 Two ways to do this:
-    1.  Make a directory named "Assembly" and rename your multi fasta assembly to "mg.assembly.merged.fa" and your bam file to "mg.reads.sorted.bam" (and of course index it)
-    2.  Change the names of the files the meta_Fun.nf under the process whokaryote, changing the names of the fasta and bam files where appropraite. 
+1. Make a directory named "Assembly" and rename your multi fasta assembly to "mg.assembly.merged.fa" and your bam file to "mg.reads.sorted.bam" (and of course index it)
+2. Change the names of the files the meta_Fun.nf under the process whokaryote, changing the names of the fasta and bam files where appropraite. 
 
