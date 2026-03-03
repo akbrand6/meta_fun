@@ -24,7 +24,7 @@ After cloning this repository there will be a few paths that need to be changed.
     - path to conda.sh (So nextflow can activate conda envs)
     - params.busco_DB = path_to_busco_database
     - kaiju_database_path = path_to_kaiju_nr_euk_database (please double check the complete path for the three subsequent lines are correct)
-meta_Fun.nf
+- meta_Fun.nf
     - For each process, the first line is the location of the conda env.  These will **all** need to be updated before use.
 
 
@@ -41,11 +41,12 @@ The output is directly dependant on the depth of coverage. The lowest average de
 
 A completed bin will have an attempt at taxanomic classification with Kaiju, and bowtie2 compared to eukdetect database.
 The results here are ... typically not completely clear. I personally use these results to make a custom kraken database with each of the top possibilities, and from there get a much more clear answer as to what my fungi actually is. 
+
 The bin itself is, of course, a fasta file of this fungi. 
 
 
 
-
+___
 The code could easily be adapted to work with metagenomic assemblies done through other means. 
 Two ways to do this:
     1.  Make a directory named "Assembly" and rename your multi fasta assembly to "mg.assembly.merged.fa" and your bam file to "mg.reads.sorted.bam" (and of course index it)
