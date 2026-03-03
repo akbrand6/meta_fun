@@ -26,6 +26,7 @@ After cloning this repository there will be a few paths that need to be changed.
     - kaiju_database_path = path_to_kaiju_nr_euk_database (please double check the complete path for the three subsequent lines are correct)
 - meta_Fun.nf
     - For each process, the first line is the location of the conda env.  These will **all** need to be updated before use.
+        - The conda environments I used can be found and recreated using the yaml files within conda_yamls dir. 
 
 
 I assume a slurm based cluster.  There are a few small things that would need to be changed for other cluster executors. Things like
