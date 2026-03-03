@@ -12,7 +12,7 @@ workflow {
 
 
 process whokaryote {
-    conda '/zfs/omics/projects/metatools/TOOLS/miniconda3/envs/whokaryote_v1.1.2/'
+    conda '<path_to>/envs/whokaryote_v1.1.2/'
     tag "Running whokaryote on $sample"
     publishDir "${params.outdir}", mode: 'rellink'
 
@@ -40,7 +40,7 @@ process whokaryote {
 }
 
 process concoct {
-    conda '/zfs/omics/personal/15938654/miniconda3/envs/concoct_env'
+    conda '<path_to>/envs/concoct_env'
     tag "Running CONCOCT on $sample"
     publishDir "${params.outdir}", mode: 'rellink'
 
@@ -75,7 +75,7 @@ process concoct {
 
 
 process busco {
-    conda '/zfs/omics/personal/15938654/miniconda3/envs/busco_env'
+    conda '<path_to>/miniconda3/envs/busco_env'
     tag "running Busco on $sample"
     publishDir "${params.outdir}/${sample}/busco", mode: 'rellink'
 
@@ -93,13 +93,13 @@ process busco {
     script:
     
     """
-    busco -m genome -f -i ${fasta_bins}/ -l /zfs/omics/projects/metatools/DB/busco/eukaryota_odb12 -o ${sample} --offline
+    busco -m genome -f -i ${fasta_bins}/ -l ${params.busco_DB} -o ${sample} --offline
     python ${params.batch_summary_script} ${sample}/batch_summary.txt bins_that_pass_busco_min.txt
     """
 }
 
 process eukdetect_taxa{
-    conda '/zfs/omics/personal/15938654/miniconda3/envs/bowtie2_env'
+    conda '<path_to>/bowtie2_env'
     tag "Running bowtie2 on $sample"
     publishDir "${params.outdir}/${sample}/taxa/eukdetect", mode: 'rellink'
 
@@ -122,7 +122,7 @@ process eukdetect_taxa{
 }
 
 process kaiju_taxa{
-    conda '/zfs/omics/projects/metatools/TOOLS/miniconda3/envs/kaiju_env'
+    conda '<path_to>/kaiju_env'
     tag "Running kaiju on $sample"
     publishDir "${params.outdir}/${sample}/taxa/kaiju", mode: 'rellink'
 
@@ -137,12 +137,9 @@ process kaiju_taxa{
 
     script:
     """
-    nodesdp="/zfs/omics/projects/metatools/DB/kaiju_nr_euk/download/nodes.dmp"
-    namesdp="/zfs/omics/projects/metatools/DB/kaiju_nr_euk/download/names.dmp"
-    fmi="/zfs/omics/projects/metatools/DB/kaiju_nr_euk/download/kaiju_db_nr_euk.fmi"
     while read bin
-        do kaiju -t \$nodesdp -f \$fmi -i ${params.outdir}/${sample}/concoct/fasta_bins/\$bin -o \${bin}.kaiju_out
-        kaiju2table -t \$nodesdp -n \$namesdp -r species -o \${bin}_kaiju_summary.tsv \${bin}.kaiju_out
+        do kaiju -t ${params.kaiju_nodesdp} -f ${params.kaiju_fmi} -i ${params.outdir}/${sample}/concoct/fasta_bins/\$bin -o \${bin}.kaiju_out
+        kaiju2table -t ${params.kaiju_nodesdp} -n ${params.kaiju_namesdp} -r species -o \${bin}_kaiju_summary.tsv \${bin}.kaiju_out
     done < ${bins_out_of_busco}
 
     """
